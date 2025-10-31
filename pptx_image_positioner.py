@@ -13,7 +13,7 @@ def update_image():
         top_pt = mm_to_pt(top_entry.get())
         width_pt = mm_to_pt(width_entry.get())
         height_pt = mm_to_pt(height_entry.get())
-        outline_on = outline_var.get()  # 윤곽선 여부
+        outline_on = outline_var.get()  # Outline
 
         found = False
         for shape in selection.ShapeRange:
@@ -23,51 +23,58 @@ def update_image():
                 shape.Width = width_pt
                 shape.Height = height_pt
 
-                # 윤곽선 적용/제거
+                # Outline
                 if hasattr(shape, "Line"):
                     shape.Line.Visible = outline_on
 
                 found = True
 
         if found:
-            set_message("이미지 위치/크기(mm) 변경 완료!")
+            set_message("Finished image positioning!")
         else:
-            set_message("선택된 도형은 이미지가 아닙니다.")
+            set_message("This is not an image.")
     except Exception as e:
-        set_message(f"오류 발생: {e}")
+        set_message(f"Error: {e}")
 
 def set_message(msg):
     message_label.config(text=msg)
 
 root = tk.Tk()
-root.title("PowerPoint 이미지 위치/크기(mm단위) 조정")
+root.title("PPTX_IMAGE_POSITIONER")
+#root.geometry("250x200")
+root.resizable(False, False)
 
-tk.Label(root, text="높이(mm)").grid(row=0, column=0)
+tk.Label(root, text="Height", anchor="e").grid(row=0, column=0, padx=10)
 height_entry = tk.Entry(root)
 height_entry.grid(row=0, column=1)
+tk.Label(root, text="mm").grid(row=0, column=2, padx=10)
 
-tk.Label(root, text="너비(mm)").grid(row=1, column=0)
+tk.Label(root, text="Width").grid(row=1, column=0, padx=10)
 width_entry = tk.Entry(root)
 width_entry.grid(row=1, column=1)
+tk.Label(root, text="mm").grid(row=1, column=2, padx=10)
 
-tk.Label(root, text="가로 위치(mm)").grid(row=2, column=0)
+tk.Label(root, text="X position").grid(row=2, column=0, padx=10)
 left_entry = tk.Entry(root)
 left_entry.grid(row=2, column=1)
+tk.Label(root, text="mm").grid(row=2, column=2, padx=10)
 
-tk.Label(root, text="세로 위치(mm)").grid(row=3, column=0)
+tk.Label(root, text="Y position").grid(row=3, column=0, padx=10)
 top_entry = tk.Entry(root)
 top_entry.grid(row=3, column=1)
+tk.Label(root, text="mm").grid(row=3, column=2, padx=10)
 
-# 윤곽선 체크박스
+# Checkbox for Outline
 outline_var = tk.BooleanVar(value=True)
-outline_check = tk.Checkbutton(root, text="윤곽선", variable=outline_var)
-outline_check.grid(row=4, column=0, columnspan=2)
+outline_check = tk.Checkbutton(root, text="Outline", variable=outline_var)
+outline_check.grid(row=4, column=1, columnspan=1)
 
-update_btn = tk.Button(root, text="변경하기", command=update_image)
-update_btn.grid(row=5, column=0, columnspan=2)
+# Go button
+update_btn = tk.Button(root, text="     Go!     ", command=update_image)
+update_btn.grid(row=5, column=1, columnspan=1)
 
-# 메시지 표시용 라벨(하단)
+# Message output
 message_label = tk.Label(root, text="", fg="blue")
-message_label.grid(row=6, column=0, columnspan=2)
+message_label.grid(row=6, column=0, columnspan=3)
 
 root.mainloop()
