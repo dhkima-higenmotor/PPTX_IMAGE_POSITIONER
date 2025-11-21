@@ -9,19 +9,23 @@ def update_image():
         ppt = win32com.client.Dispatch("PowerPoint.Application")
         selection = ppt.ActiveWindow.Selection
 
-        left_pt = mm_to_pt(left_entry.get())
-        top_pt = mm_to_pt(top_entry.get())
-        width_pt = mm_to_pt(width_entry.get())
-        height_pt = mm_to_pt(height_entry.get())
+        left_val = left_entry.get()
+        top_val = top_entry.get()
+        width_val = width_entry.get()
+        height_val = height_entry.get()
         outline_on = outline_var.get()  # Outline
 
         found = False
         for shape in selection.ShapeRange:
             if shape.Type in [13, 14]:  # 13=Picture, 14=OLE Object
-                shape.Left = left_pt
-                shape.Top = top_pt
-                shape.Width = width_pt
-                shape.Height = height_pt
+                if left_val:
+                    shape.Left = mm_to_pt(left_val)
+                if top_val:
+                    shape.Top = mm_to_pt(top_val)
+                if width_val:
+                    shape.Width = mm_to_pt(width_val)
+                if height_val:
+                    shape.Height = mm_to_pt(height_val)
 
                 # Outline
                 if hasattr(shape, "Line"):
