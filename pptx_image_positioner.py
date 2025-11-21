@@ -42,6 +42,7 @@ def update_image():
 
 def set_message(msg):
     message_label.config(text=msg)
+    root.after(5000, lambda: message_label.config(text=""))
 
 root = tk.Tk()
 root.title("PPTX_IMAGE_POSITIONER")
